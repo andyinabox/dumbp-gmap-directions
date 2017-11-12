@@ -1,0 +1,336 @@
+[
+  {
+    "bounds": {
+      "northeast": {
+        "lat": 44.9691318, 
+        "lng": -93.2361612
+      }, 
+      "southwest": {
+        "lat": 44.9617858, 
+        "lng": -93.29058409999999
+      }
+    }, 
+    "copyrights": "Map data \u00a92017 Google", 
+    "legs": [
+      {
+        "distance": {
+          "text": "3.5 mi", 
+          "value": 5602
+        }, 
+        "duration": {
+          "text": "10 mins", 
+          "value": 594
+        }, 
+        "duration_in_traffic": {
+          "text": "10 mins", 
+          "value": 579
+        }, 
+        "end_address": "725 Vineland Pl, Minneapolis, MN 55403, USA", 
+        "end_location": {
+          "lat": 44.968891, 
+          "lng": -93.2891971
+        }, 
+        "start_address": "2105 22nd Ave S, Minneapolis, MN 55404, USA", 
+        "start_location": {
+          "lat": 44.9617858, 
+          "lng": -93.2409289
+        }, 
+        "steps": [
+          {
+            "distance": {
+              "text": "0.2 mi", 
+              "value": 246
+            }, 
+            "duration": {
+              "text": "2 mins", 
+              "value": 91
+            }, 
+            "end_location": {
+              "lat": 44.9639968, 
+              "lng": -93.24091279999999
+            }, 
+            "html_instructions": "Head <b>north</b> on <b>22nd Ave S</b> toward <b>E Franklin Ave</b>", 
+            "polyline": {
+              "points": "erlqGxbbxP{B?eA?gA?oDC"
+            }, 
+            "start_location": {
+              "lat": 44.9617858, 
+              "lng": -93.2409289
+            }, 
+            "travel_mode": "DRIVING"
+          }, 
+          {
+            "distance": {
+              "text": "0.2 mi", 
+              "value": 374
+            }, 
+            "duration": {
+              "text": "1 min", 
+              "value": 68
+            }, 
+            "end_location": {
+              "lat": 44.963985, 
+              "lng": -93.2361612
+            }, 
+            "html_instructions": "Turn <b>right</b> onto <b>S 9th St</b>", 
+            "maneuver": "turn-right", 
+            "polyline": {
+              "points": "_`mqGtbbxP@{C@qD?mA?}EAuC?C?_B@aA"
+            }, 
+            "start_location": {
+              "lat": 44.9639968, 
+              "lng": -93.24091279999999
+            }, 
+            "travel_mode": "DRIVING"
+          }, 
+          {
+            "distance": {
+              "text": "243 ft", 
+              "value": 74
+            }, 
+            "duration": {
+              "text": "1 min", 
+              "value": 22
+            }, 
+            "end_location": {
+              "lat": 44.9646473, 
+              "lng": -93.2361684
+            }, 
+            "html_instructions": "Turn <b>left</b> onto <b>25th Ave S</b>", 
+            "maneuver": "turn-left", 
+            "polyline": {
+              "points": "{_mqG~daxPq@?a@?A?I?e@@"
+            }, 
+            "start_location": {
+              "lat": 44.963985, 
+              "lng": -93.2361612
+            }, 
+            "travel_mode": "DRIVING"
+          }, 
+          {
+            "distance": {
+              "text": "279 ft", 
+              "value": 85
+            }, 
+            "duration": {
+              "text": "1 min", 
+              "value": 13
+            }, 
+            "end_location": {
+              "lat": 44.9646194, 
+              "lng": -93.2372523
+            }, 
+            "html_instructions": "Turn <b>left</b> at the 1st cross street onto <b>Butler Pl S</b>", 
+            "maneuver": "turn-left", 
+            "polyline": {
+              "points": "admqG`eaxPDvE"
+            }, 
+            "start_location": {
+              "lat": 44.9646473, 
+              "lng": -93.2361684
+            }, 
+            "travel_mode": "DRIVING"
+          }, 
+          {
+            "distance": {
+              "text": "2.3 mi", 
+              "value": 3742
+            }, 
+            "duration": {
+              "text": "3 mins", 
+              "value": 175
+            }, 
+            "end_location": {
+              "lat": 44.9648291, 
+              "lng": -93.2835178
+            }, 
+            "html_instructions": "Take the ramp on the <b>left</b> onto <b>I-94 W</b>", 
+            "polyline": {
+              "points": "{cmqGxkaxPDPBH?J@R@|@?zC@`@?\\@`@B\\HpBBl@@JF^A`CArAAj@A`AAj@Al@Cf@IlAKjAKdAQrAADObA[rAk@bCk@hB{@vCIT[lAQr@Mh@[fBKp@Gh@Ef@C`@En@Af@Ab@Ad@@h@?\\@b@@l@Bf@Bb@BVXfDTfDDh@@ZBl@?X@j@?f@?x@AZC`@Cp@IvA?@Cd@CVEp@APA\\A`@?b@?`@AZ@\\@b@@`@@`@BVFlA?L?TBn@Bz@@h@BzA?bB?b@?ZCr@?bF@|D?L?jD?`I?vA@VB~FAnH?rACfAE`AEj@A\\Gh@uAhKKbAQbCItBC~@ApA?t@@~@B~AHrANpB@BDh@Hl@F`@Hd@XbBpApHhDxRh@xCHl@"
+            }, 
+            "start_location": {
+              "lat": 44.9646194, 
+              "lng": -93.2372523
+            }, 
+            "travel_mode": "DRIVING"
+          }, 
+          {
+            "distance": {
+              "text": "0.1 mi", 
+              "value": 157
+            }, 
+            "duration": {
+              "text": "1 min", 
+              "value": 10
+            }, 
+            "end_location": {
+              "lat": 44.9648017, 
+              "lng": -93.2854976
+            }, 
+            "html_instructions": "Take exit <b>231B</b> for <b>Hennepin Ave</b> toward <b>Lyndale Ave</b>", 
+            "maneuver": "ramp-right", 
+            "polyline": {
+              "points": "eemqG~ljxP?x@H~@Bb@Bh@?L?R?VAj@Cl@En@"
+            }, 
+            "start_location": {
+              "lat": 44.9648291, 
+              "lng": -93.2835178
+            }, 
+            "travel_mode": "DRIVING"
+          }, 
+          {
+            "distance": {
+              "text": "315 ft", 
+              "value": 96
+            }, 
+            "duration": {
+              "text": "1 min", 
+              "value": 13
+            }, 
+            "end_location": {
+              "lat": 44.9652896, 
+              "lng": -93.2865043
+            }, 
+            "html_instructions": "Keep <b>right</b>, follow signs for <b>Lyndale Ave N</b>/<b>Hennepin Ave N</b>/<b>Lyndale Ave S</b>", 
+            "maneuver": "keep-right", 
+            "polyline": {
+              "points": "_emqGjyjxPY~@GPENIRGLMXYh@"
+            }, 
+            "start_location": {
+              "lat": 44.9648017, 
+              "lng": -93.2854976
+            }, 
+            "travel_mode": "DRIVING"
+          }, 
+          {
+            "distance": {
+              "text": "331 ft", 
+              "value": 101
+            }, 
+            "duration": {
+              "text": "1 min", 
+              "value": 22
+            }, 
+            "end_location": {
+              "lat": 44.9657494, 
+              "lng": -93.2854108
+            }, 
+            "html_instructions": "Turn <b>right</b> onto <b>Dell Pl</b>", 
+            "maneuver": "turn-right", 
+            "polyline": {
+              "points": "ahmqGr_kxPO_AGSGUGUGMO_@[k@"
+            }, 
+            "start_location": {
+              "lat": 44.9652896, 
+              "lng": -93.2865043
+            }, 
+            "travel_mode": "DRIVING"
+          }, 
+          {
+            "distance": {
+              "text": "0.2 mi", 
+              "value": 262
+            }, 
+            "duration": {
+              "text": "1 min", 
+              "value": 78
+            }, 
+            "end_location": {
+              "lat": 44.9671117, 
+              "lng": -93.2880424
+            }, 
+            "html_instructions": "Turn <b>left</b> onto <b>Groveland Ave</b>", 
+            "maneuver": "turn-left", 
+            "polyline": {
+              "points": "}jmqGxxjxPeAxBg@`ACHs@vAc@z@ELq@pAIPCJCP@N@R"
+            }, 
+            "start_location": {
+              "lat": 44.9657494, 
+              "lng": -93.2854108
+            }, 
+            "travel_mode": "DRIVING"
+          }, 
+          {
+            "distance": {
+              "text": "0.2 mi", 
+              "value": 249
+            }, 
+            "duration": {
+              "text": "1 min", 
+              "value": 49
+            }, 
+            "end_location": {
+              "lat": 44.9681833, 
+              "lng": -93.29058409999999
+            }, 
+            "html_instructions": "Continue onto <b>Groveland Terrace</b>", 
+            "polyline": {
+              "points": "msmqGfikxPCh@?D?VBt@En@Ed@Ib@Od@o@fA_CtC"
+            }, 
+            "start_location": {
+              "lat": 44.9671117, 
+              "lng": -93.2880424
+            }, 
+            "travel_mode": "DRIVING"
+          }, 
+          {
+            "distance": {
+              "text": "397 ft", 
+              "value": 121
+            }, 
+            "duration": {
+              "text": "1 min", 
+              "value": 26
+            }, 
+            "end_location": {
+              "lat": 44.9691318, 
+              "lng": -93.29030379999999
+            }, 
+            "html_instructions": "Turn <b>right</b> onto <b>Bryant Ave S</b>", 
+            "maneuver": "turn-right", 
+            "polyline": {
+              "points": "czmqGbykxPw@u@]YSASDg@`@EBQQ"
+            }, 
+            "start_location": {
+              "lat": 44.9681833, 
+              "lng": -93.29058409999999
+            }, 
+            "travel_mode": "DRIVING"
+          }, 
+          {
+            "distance": {
+              "text": "312 ft", 
+              "value": 95
+            }, 
+            "duration": {
+              "text": "1 min", 
+              "value": 27
+            }, 
+            "end_location": {
+              "lat": 44.968891, 
+              "lng": -93.2891971
+            }, 
+            "html_instructions": "Turn <b>right</b> onto <b>Vineland Pl</b><div style=\"font-size:0.9em\">Destination will be on the right</div>", 
+            "maneuver": "turn-right", 
+            "polyline": {
+              "points": "a`nqGjwkxPJOJUFSF]Di@@o@?i@"
+            }, 
+            "start_location": {
+              "lat": 44.9691318, 
+              "lng": -93.29030379999999
+            }, 
+            "travel_mode": "DRIVING"
+          }
+        ], 
+        "traffic_speed_entry": [], 
+        "via_waypoint": []
+      }
+    ], 
+    "overview_polyline": {
+      "points": "erlqGxbbxPyLCByR?{HuA?I?e@@DvEHZ@^BxGR~EHj@CtEGfEMtBWpCSxAk@vCk@bCk@hBeAlDm@`Ci@pCSzAIhAK`DDxCd@jGZpEDhA@fDa@xHEtB@~BNhDFnCDlGCnA@`L?rQDvGAbKIhCGhA}ArL]fEMtDAfCD~CXdEX|Bb@hCdHda@Hl@?x@LbBBbBExAEn@Y~@M`@Q`@g@bAWsAOk@Wm@[k@eAxBk@jAoCrFM\\CP@NA|@?\\Bt@En@OhAOd@o@fA_CtCw@u@]YSASDg@`@EBQQVe@Nq@FyA?i@"
+    }, 
+    "summary": "I-94 W", 
+    "warnings": [], 
+    "waypoint_order": []
+  }
+]

@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{{ summary }}</title>
+  </head>
+  <body>
+    <h1>{{ summary }}</h1>
+
+  {{#legs}}
+
+    <h2>{{ start_address}} to {{ end_address }}</h2>
+    <p>{{ distance.text }} / {{ duration.text }}</p>
+
+    <ol>
+    {{#steps}}
+      <li>{{{ html_instructions }}}</li>
+    {{/steps}}
+    </ol>
+
+  {{/legs}}
+
+  </body>
+</html>
