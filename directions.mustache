@@ -1,19 +1,35 @@
 <!doctype html>
 <html>
   <head>
-    <title>{{ summary }}</title>
+    <title>Directions</title>
+    <style>
+       img { display: block; margin: 10px 0; }
+      ol { margin: 0; padding: 0; list-style-position: inside; }
+      ol ol {
+        padding-left: 5px;
+      }
+    </style>
   </head>
   <body>
-    <h1>{{ summary }}</h1>
+    <h1>Directions</h1>
+
+    <img src="data:image/png;base64,{{ overview_polyline.base64 }}">
+
 
   {{#legs}}
 
-    <h2>{{ start_address}} to {{ end_address }}</h2>
-    <p>{{ distance.text }} / {{ duration.text }}</p>
+    <p><b>{{ start_address}}</b> to <b>{{ end_address }}</b><br><i>{{ distance.text }} / {{ duration.text }}</i><p>
 
     <ol>
     {{#steps}}
-      <li>{{{ html_instructions }}}</li>
+      <img src="data:image/png;base64,{{ polyline.base64 }}">
+      <li>{{{ html_instructions }}}
+        <ol>
+          {{#steps}}
+            <li>{{{ html_instructions }}}</li>
+          {{/steps}}
+        </ol>
+      </li>
     {{/steps}}
     </ol>
 

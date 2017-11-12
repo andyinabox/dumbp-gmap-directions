@@ -1,10 +1,35 @@
 import googlemaps
 import pystache
-import os, json, codecs
+import os, json, codecs, urllib, uuid, base64
 from datetime import datetime
 
 # get api key from environment
 API_KEY = os.environ['GMAPS_API_KEY']
+URL_TEMPLATE = "https://maps.googleapis.com/maps/api/staticmap?size=%dx%d&path=enc:%s&key=" + API_KEY
+IMAGE_SIZE = (230, 230)
+
+def get_maps(route):
+  for step in route['legs'][0]['steps']:
+    step['uuid'] = uuid.uuid4().hex
+    points = step['polyline']['points']
+    url = URL_TEMPLATE % (400, 400, points)
+    urllib.urlretrieve(url, "images/%s.png" % (step['uuid']))
+
+
+
+def get_map_base64(encoded_polyline):
+  url = URL_TEMPLATE % (IMAGE_SIZE[0], IMAGE_SIZE[1], encoded_polyline)
+  img_data = urllib.urlopen(url)
+  return base64.b64encode(img_data.read())
+
+def get_image_data(route):
+
+  route['overview_polyline']['base64'] = get_map_base64(route['overview_polyline']['points'])
+
+  for step in route['legs'][0]['steps']:
+    step['polyline']['base64'] = get_map_base64(step['polyline']['points'])
+
+
 
 # set up mustache template
 tpl_file = codecs.open('directions.mustache', 'r', 'utf-8')
@@ -23,32 +48,29 @@ travel_mode = raw_input("-> ")
 print "Ok, getting results from Google..."
 gmaps = googlemaps.Client(key=API_KEY)
 now = datetime.now()
-directions_result = gmaps.directions(origin, destination, mode=travel_mode, departure_time=now)
+response = gmaps.directions(origin, destination, mode=travel_mode, departure_time=now)
 
-# # get first result
-# # @todo handle multiple options
-directions = directions_result[0]
+if len(response) < 1:
+  print "No results found! Try again with more specific places..."
+  exit()
+  
+route = response[0]
 
-# summary = directions["summary"]
+print "Downloading maps..."
 
-# # sticking to just one leg for now
-# route = directions["legs"][0]
-# start_address = route["start_address"]
-# end_address = route["end_address"]
-# total_distance = route["distance"]["text"]
-# total_duration = route["duration"]["text"]
+# get_maps(route)
+get_image_data(route)
 
-# # actual driving steps
-# steps = route["steps"]
+print "Saving directions..."
 
-json = json.dumps(directions_result, sort_keys=True, indent=2)
-html = pystache.render(tpl, directions)
+json_data = json.dumps(response, indent=2)
+html = pystache.render(tpl, route)
 
-print json
+print json_data
 print html
 
 json_file = open('directions.json', 'w')
-json_file.write(json)
+json_file.write(json_data)
 html_file = open('directions.html', 'w')
 html_file.write(html)
 
@@ -58,3 +80,7 @@ html_file.write(html)
 
 # for step in steps:
   # print step["html_instructions"]
+
+
+
+

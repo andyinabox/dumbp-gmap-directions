@@ -1,6 +1,6 @@
 import pystache
 import polyline
-import os, json, codecs, urllib
+import os, json, codecs, urllib, base64
 
 API_KEY = os.environ['GMAPS_API_KEY']
 
@@ -28,11 +28,17 @@ html_file.write(html)
 # print points
 # print points_str
 
-size = (400, 400)
+size = (250, 250)
 path = "erlqGxbbxP{B?eA?"
 
 map_url = "https://maps.googleapis.com/maps/api/staticmap?size=%dx%d&path=enc:%s&key=%s" % (size[0], size[1], path, API_KEY)
 
-urllib.urlretrieve(map_url, "images/map_test.png")
+# urllib.urlretrieve(map_url, "images/map_test.png")
 
-print map_url
+image_data = urllib.urlopen(map_url)
+
+image_data_encoded = base64.b64encode(image_data.read())
+
+encoded_image_src = "data:image/png;base64,%s" % (image_data_encoded)
+
+print encoded_image_src
