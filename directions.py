@@ -11,7 +11,7 @@ IMAGE_SIZE = (230, 230)
 INPUT_PROMPT = "-> "
 TPL_FILE_NAME = 'directions.mustache'
 
-output_file_name = time.time()
+output_file_name = str(time.time())
 
 # utility function to take input with default value
 def input_default(prompt, default_value):
@@ -71,7 +71,7 @@ print "Ok, now where are you going? (%s)" % (HOME_ADDRESS)
 destination = input_default(INPUT_PROMPT, HOME_ADDRESS)
 print "Select from: transit, walking, bicycling, driving (driving)"
 travel_mode = raw_input(INPUT_PROMPT)
-print "Name for directions file (extension will be added) (%d.html)" % (output_file_name)
+print "Name for directions file (extension will be added) (%s.html)" % (output_file_name)
 filename = input_default(INPUT_PROMPT, output_file_name) + ".html"
 print "Automatically send via bluetooth? (Yn)"
 bluetooth = raw_input(INPUT_PROMPT)
