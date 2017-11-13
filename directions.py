@@ -39,10 +39,6 @@ def set_transit_flags(route, travel_mode):
 
 
 def get_directions(origin, destination, travel_mode, add_info=True):
-  # template for html file
-  tpl_file = codecs.open('tpl/directions.mustache', 'r', 'utf-8')
-  tpl = pystache.parse(tpl_file.read())
-
   # access google maps api
   gmaps = googlemaps.Client(key=API_KEY)
   now = datetime.datetime.now()
@@ -64,7 +60,7 @@ def get_directions(origin, destination, travel_mode, add_info=True):
 
 
 
-def render_template(route, include_details):
+def render_template(route, tpl, include_details=True):
 
   # process data
   route["include_details"] = include_details
@@ -114,7 +110,10 @@ print "Getting results from Google..."
 route = get_directions(origin, destination, travel_mode)
 
 print "Rendering HTML..."
-html = render_template(route, origin, destination, travel_mode, include_details)
+# template for html file
+tpl_file = codecs.open('tpl/directions.mustache', 'r', 'utf-8')
+tpl = pystache.parse(tpl_file.read())
+html = render_template(route, tpl, include_details)
 
 # save file
 output_file_path = os.path.join(tempfile.gettempdir(), filename)
