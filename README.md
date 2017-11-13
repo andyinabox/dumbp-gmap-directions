@@ -29,6 +29,6 @@ You'll be prompted for everything else.
 
 ## Todo
 
-- [ ] Select alternate routes
+- [x] Select alternate routes
 - [ ] How to deal with larger file sizes
-- [ ] Custom departure time
+- [x] Custom departure time

@@ -39,17 +39,35 @@ def set_transit_flags(route, travel_mode):
   # for step in route['legs'][0]['steps']:
     # step['is_transit'] = True if step['travel_mode'].lower() is "transit" else False
 
+def get_transit_summary(route):
+  lines = []
+  for step in route['legs'][0]['steps']:
+    if 'transit_details' in step:
+      name = step['transit_details']['line']['short_name']
+      lines.append(name)
+  return ' > '.join(lines)
 
 def get_directions(origin, destination, travel_mode, departure_time, add_info=True):
   # access google maps api
   gmaps = googlemaps.Client(key=API_KEY)
-  response = gmaps.directions(origin, destination, mode=travel_mode, departure_time=departure_time)
+  response = gmaps.directions(origin, destination, mode=travel_mode, departure_time=departure_time, alternatives=True)
 
   if len(response) < 1:
     print "No results found! Try again with more specific places..."
     exit()
 
-  route = response[0]
+  if len(response) > 1:
+    print "Which of the following routes would you like?"
+    index = 1
+    for route in response:
+      summary = get_transit_summary(route) if travel_mode == 'transit' else route['summary']
+      duration = route['legs'][0]['duration']['text']
+      print "%d. %s (%s)" % (index, summary, duration)
+      index = index + 1
+    route_index = int(raw_input(INPUT_PROMPT)) - 1
+    route = response[route_index]
+  else:
+    route = response[0]
 
   if add_info:
     route["origin_name"] = "Home" if origin is HOME_ADDRESS else origin
@@ -87,7 +105,7 @@ def os_open(file_path):
 
 # # prompt user for input
 print "Let's get started. Where are you coming from? (%s)" % (HOME_ADDRESS)
-origin = input_default("->", HOME_ADDRESS)
+origin = input_default(INPUT_PROMPT, HOME_ADDRESS)
 
 print "Ok, now where are you going? (%s)" % (HOME_ADDRESS)
 destination = input_default(INPUT_PROMPT, HOME_ADDRESS)
