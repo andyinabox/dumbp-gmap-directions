@@ -5,11 +5,10 @@ import os, json, codecs, urllib, base64, datetime, time, tempfile
 # set constants
 API_KEY = os.environ['DUMBP_GMAPS_API_KEY']
 HOME_ADDRESS = os.environ['DUMBP_HOME_ADDRESS']
-SAVE_DIR = os.environ['DUMBP_SAVE_DIR']
 IMAGE_URL_TEMPLATE = "https://maps.googleapis.com/maps/api/staticmap?size=%dx%d&path=enc:%s&key=" + API_KEY
 IMAGE_SIZE = (230, 230)
 INPUT_PROMPT = "-> "
-TPL_FILE_NAME = 'directions.mustache'
+TPL_FILE_NAME = 'tpl/directions.mustache'
 
 output_file_name = str(time.time())
 
@@ -31,13 +30,17 @@ def get_image_data(route):
   for step in route['legs'][0]['steps']:
     step['polyline']['base64'] = get_map_base64(step['polyline']['points'])
 
-def process_directions_data(route):
-  get_image_data(route)
-  return route
+def set_transit_flags(route, travel_mode):
+  route["is_transit"] = travel_mode is "transit"
+  route["travel_mode"] = travel_mode
 
-def get_directions(origin, destination, travel_mode):
+  # for step in route['legs'][0]['steps']:
+    # step['is_transit'] = True if step['travel_mode'].lower() is "transit" else False
+
+
+def get_directions(origin, destination, travel_mode, add_info=True):
   # template for html file
-  tpl_file = codecs.open('directions.mustache', 'r', 'utf-8')
+  tpl_file = codecs.open('tpl/directions.mustache', 'r', 'utf-8')
   tpl = pystache.parse(tpl_file.read())
 
   # access google maps api
@@ -49,10 +52,31 @@ def get_directions(origin, destination, travel_mode):
     print "No results found! Try again with more specific places..."
     exit()
 
-  # make modifications to json data
-  route = process_directions_data(response[0])
+  route = response[0]
 
-  # render html template
+  if add_info:
+    route["origin_name"] = "Home" if origin is HOME_ADDRESS else origin
+    route["destination_name"] = "Home" if destination is HOME_ADDRESS else destination
+    route["travel_mode"] = travel_mode
+
+  # make modifications to json data
+  return route
+
+
+
+def render_template(route, include_details):
+
+  # process data
+  route["include_details"] = include_details
+
+  # rename sub-steps to be more mustache-friendly
+  for step in route['legs'][0]['steps']:
+    if 'steps' in step:
+      step['sub_steps'] = step['steps']
+      del step['steps']
+
+  # get maps
+  get_image_data(route)
   return pystache.render(tpl, route)
 
 # open in Bluetooth File Exchange
@@ -67,27 +91,37 @@ def os_open(file_path):
 # # prompt user for input
 print "Let's get started. Where are you coming from? (%s)" % (HOME_ADDRESS)
 origin = input_default("->", HOME_ADDRESS)
+
 print "Ok, now where are you going? (%s)" % (HOME_ADDRESS)
 destination = input_default(INPUT_PROMPT, HOME_ADDRESS)
+
 print "Select from: transit, walking, bicycling, driving (driving)"
 travel_mode = raw_input(INPUT_PROMPT)
+
 print "Name for directions file (extension will be added) (%s.html)" % (output_file_name)
 filename = input_default(INPUT_PROMPT, output_file_name) + ".html"
+
+print "Include detailed directions? (Yn)"
+include_details = raw_input(INPUT_PROMPT)
+include_details = False if include_details.lower() == "n" else True
+
 print "Automatically send via bluetooth? (Yn)"
 bluetooth = raw_input(INPUT_PROMPT)
 bluetooth = False if bluetooth.lower() == "n" else True
 
 
-# print "Where to save file? (%s)" % (SAVE_DIR)
-# save_dir = input_default(INPUT_PROMPT, SAVE_DIR)
-
 print "Getting results from Google..."
-html = get_directions(origin, destination, travel_mode)
+route = get_directions(origin, destination, travel_mode)
 
+print "Rendering HTML..."
+html = render_template(route, origin, destination, travel_mode, include_details)
+
+# save file
 output_file_path = os.path.join(tempfile.gettempdir(), filename)
 output_file = open(output_file_path, 'w')
 output_file.write(html)
 
+# either send to bluetooth or open
 if bluetooth:
   print "Sending file to Bluetooth File Exchange"
   open_in_bluetooth_file_exchange(output_file_path)
