@@ -31,3 +31,4 @@ You'll be prompted for everything else.
 
 - [ ] Select alternate routes
 - [ ] How to deal with larger file sizes
+- [ ] Custom departure time

@@ -1,6 +1,8 @@
 import googlemaps
 import pystache
-import os, json, codecs, urllib, base64, datetime, time, tempfile
+import os, json, codecs, urllib, base64, time, tempfile
+from datetime import datetime
+import parsedatetime
 
 # set constants
 API_KEY = os.environ['DUMBP_GMAPS_API_KEY']
@@ -38,11 +40,10 @@ def set_transit_flags(route, travel_mode):
     # step['is_transit'] = True if step['travel_mode'].lower() is "transit" else False
 
 
-def get_directions(origin, destination, travel_mode, add_info=True):
+def get_directions(origin, destination, travel_mode, departure_time, add_info=True):
   # access google maps api
   gmaps = googlemaps.Client(key=API_KEY)
-  now = datetime.datetime.now()
-  response = gmaps.directions(origin, destination, mode=travel_mode, departure_time=now)
+  response = gmaps.directions(origin, destination, mode=travel_mode, departure_time=departure_time)
 
   if len(response) < 1:
     print "No results found! Try again with more specific places..."
@@ -94,6 +95,20 @@ destination = input_default(INPUT_PROMPT, HOME_ADDRESS)
 print "Select from: transit, walking, bicycling, driving (driving)"
 travel_mode = raw_input(INPUT_PROMPT)
 
+print "What time will you leave (now)"
+departure_time = raw_input(INPUT_PROMPT)
+if departure_time:
+  cal = parsedatetime.Calendar()
+  time_struct, parse_status = cal.parse(departure_time)
+  if parse_status:
+    departure_time = datetime(*time_struct[:6])
+  else:
+    print "I didn't understand that. Setting departure time to now."
+    departure_time = datetime.now()
+else:
+  departure_time = datetime.now()
+
+
 print "Name for directions file (extension will be added) (%s.html)" % (output_file_name)
 filename = input_default(INPUT_PROMPT, output_file_name) + ".html"
 
@@ -107,7 +122,7 @@ bluetooth = False if bluetooth.lower() == "n" else True
 
 
 print "Getting results from Google..."
-route = get_directions(origin, destination, travel_mode)
+route = get_directions(origin, destination, travel_mode, departure_time)
 
 print "Rendering HTML..."
 # template for html file
