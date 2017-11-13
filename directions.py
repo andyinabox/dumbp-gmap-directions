@@ -13,10 +13,11 @@ TPL_FILE_NAME = 'directions.mustache'
 
 output_file_name = "directions.html"
 
-print API_KEY
-
-def default_value(input, default):
-    return default if input is None else input
+# utility function to take input with default value
+def input_default(prompt, default_value):
+    value = raw_input(prompt)
+    value = default_value if not value else value
+    return value
 
 def get_map_base64(encoded_polyline):
   url = IMAGE_URL_TEMPLATE % (IMAGE_SIZE[0], IMAGE_SIZE[1], encoded_polyline)
@@ -41,7 +42,8 @@ def get_directions(origin, destination, travel_mode):
 
   # access google maps api
   gmaps = googlemaps.Client(key=API_KEY)
-  response = gmaps.directions(origin, destination, mode=travel_mode, departure_time=datetime.now())
+  now = datetime.now()
+  response = gmaps.directions(origin, destination, mode=travel_mode, departure_time=now)
 
   if len(response) < 1:
     print "No results found! Try again with more specific places..."
@@ -54,17 +56,17 @@ def get_directions(origin, destination, travel_mode):
   return pystache.render(tpl, route)
 
 
-# prompt user for input
+# # prompt user for input
 print "Let's get started. Where are you coming from? (%s)" % (HOME_ADDRESS)
-origin = default_value(raw_input("-> "), HOME_ADDRESS)
+origin = input_default("->", HOME_ADDRESS)
 print "Ok, now where are you going? (%s)" % (HOME_ADDRESS)
-destination = default_value(raw_input("-> "), HOME_ADDRESS)
+destination = input_default("-> ", HOME_ADDRESS)
 print "Select from: transit, walking, bicycling, driving (driving)"
 travel_mode = raw_input("-> ")
 print "Name for directions file (%s)" % (output_file_name)
-filename = default_value(raw_input("-> "), output_file_name)
+filename = input_default("-> ", output_file_name)
 print "Where to save file? (%s)" % (SAVE_DIR)
-save_dir = default_value(raw_input("-> "), SAVE_DIR)
+save_dir = input_default("-> ", SAVE_DIR)
 
 
 print "Getting results from Google..."
@@ -75,7 +77,7 @@ output_file_path = os.path.join(save_dir, filename)
 output = open(output_file_path, 'w')
 output.write(html)
 
-print "Directions saved to %s" % (output)
+print "Directions saved to %s" % (output_file_path)
 
 
 
