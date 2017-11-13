@@ -13,6 +13,11 @@ TPL_FILE_NAME = 'directions.mustache'
 
 output_file_name = "directions.html"
 
+print API_KEY
+
+def default_value(input, default):
+    return default if input is None else input
+
 def get_map_base64(encoded_polyline):
   url = IMAGE_URL_TEMPLATE % (IMAGE_SIZE[0], IMAGE_SIZE[1], encoded_polyline)
   img_data = urllib.urlopen(url)
@@ -29,7 +34,7 @@ def process_directions_data(route):
   get_image_data(route)
   return route
 
-def get_directions(origin, destination, travel_mode, filename, save_dir):
+def get_directions(origin, destination, travel_mode):
   # template for html file
   tpl_file = codecs.open('directions.mustache', 'r', 'utf-8')
   tpl = pystache.parse(tpl_file.read())
@@ -38,7 +43,7 @@ def get_directions(origin, destination, travel_mode, filename, save_dir):
   gmaps = googlemaps.Client(key=API_KEY)
   response = gmaps.directions(origin, destination, mode=travel_mode, departure_time=datetime.now())
 
-  if len(response < 1):
+  if len(response) < 1:
     print "No results found! Try again with more specific places..."
     exit()
 
@@ -46,31 +51,30 @@ def get_directions(origin, destination, travel_mode, filename, save_dir):
   route = process_directions_data(response[0])
 
   # render html template
-  html = pystache.render(tpl, route)
-
-  output_file_path = os.path.join(save_dir, filename)
-  output = open(output_file_path, 'w')
-  output.write(html)
-
-  return output_file_path
+  return pystache.render(tpl, route)
 
 
 # prompt user for input
 print "Let's get started. Where are you coming from? (%s)" % (HOME_ADDRESS)
-origin = raw_input("-> ")
+origin = default_value(raw_input("-> "), HOME_ADDRESS)
 print "Ok, now where are you going? (%s)" % (HOME_ADDRESS)
-destination = raw_input("-> ")
+destination = default_value(raw_input("-> "), HOME_ADDRESS)
 print "Select from: transit, walking, bicycling, driving (driving)"
 travel_mode = raw_input("-> ")
 print "Name for directions file (%s)" % (output_file_name)
-filename = raw_input("-> ")
-filename = output_file_name if filename is None else filename
+filename = default_value(raw_input("-> "), output_file_name)
 print "Where to save file? (%s)" % (SAVE_DIR)
-save_dir = raw_input("-> ")
-save_dir = SAVE_DIR if save_dir is None else save_dir
+save_dir = default_value(raw_input("-> "), SAVE_DIR)
+
 
 print "Getting results from Google..."
-output = get_directions(origin, destination, travel_mode, filename, save_dir)
+html = get_directions(origin, destination, travel_mode)
+
+# save file
+output_file_path = os.path.join(save_dir, filename)
+output = open(output_file_path, 'w')
+output.write(html)
+
 print "Directions saved to %s" % (output)
 
 
