@@ -26,3 +26,8 @@ pipenv run python directions.py
 ```
 
 You'll be prompted for everything else.
+
+## Todo
+
+- [ ] Select alternate routes
+- [ ] How to deal with larger file sizes
