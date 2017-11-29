@@ -7,11 +7,10 @@ import parsedatetime
 # set constants
 API_KEY = os.environ['DUMBP_GMAPS_API_KEY']
 HOME_ADDRESS = os.environ['DUMBP_HOME_ADDRESS']
+DEFAULT_TRAVEL_MODE = "driving"
 IMAGE_URL_TEMPLATE = "https://maps.googleapis.com/maps/api/staticmap?size=%dx%d&path=enc:%s&key=" + API_KEY
 IMAGE_SIZE = (230, 230)
 INPUT_PROMPT = "-> "
-TPL_FILE_NAME = 'tpl/directions.mustache'
-
 output_file_name = str(time.time())
 
 # utility function to take input with default value
@@ -43,7 +42,11 @@ def get_transit_summary(route):
   lines = []
   for step in route['legs'][0]['steps']:
     if 'transit_details' in step:
-      name = step['transit_details']['line']['short_name']
+      line = step['transit_details']['line']
+      if 'short_name' in line:
+        name = line['short_name']
+      else:
+        name = line['name']
       lines.append(name)
   return ' > '.join(lines)
 
@@ -111,7 +114,7 @@ print "Ok, now where are you going? (%s)" % (HOME_ADDRESS)
 destination = input_default(INPUT_PROMPT, HOME_ADDRESS)
 
 print "Select from: transit, walking, bicycling, driving (driving)"
-travel_mode = raw_input(INPUT_PROMPT)
+travel_mode = input_default(INPUT_PROMPT, DEFAULT_TRAVEL_MODE)
 
 print "What time will you leave (now)"
 departure_time = raw_input(INPUT_PROMPT)
@@ -127,8 +130,9 @@ else:
   departure_time = datetime.now()
 
 
-print "Name for directions file (extension will be added) (%s.html)" % (output_file_name)
-filename = input_default(INPUT_PROMPT, output_file_name) + ".html"
+print "Name for directions file (extension and travel mode will be added) (%s-%s.html)" % (output_file_name, travel_mode)
+filebase = input_default(INPUT_PROMPT, output_file_name)
+filename = "%s-%s.html" % (filebase, travel_mode)
 
 print "Include detailed directions? (Yn)"
 include_details = raw_input(INPUT_PROMPT)
@@ -143,8 +147,10 @@ print "Getting results from Google..."
 route = get_directions(origin, destination, travel_mode, departure_time)
 
 print "Rendering HTML..."
-# template for html file
-tpl_file = codecs.open('tpl/directions.mustache', 'r', 'utf-8')
+
+tpl_path = 'tpl/directions.mustache'
+tpl_file = codecs.open(tpl_path, 'r', 'utf-8')
+
 tpl = pystache.parse(tpl_file.read())
 html = render_template(route, tpl, include_details)
 
@@ -152,6 +158,7 @@ html = render_template(route, tpl, include_details)
 output_file_path = os.path.join(tempfile.gettempdir(), filename)
 output_file = open(output_file_path, 'w')
 output_file.write(html)
+output_file.close()
 
 # either send to bluetooth or open
 if bluetooth:
